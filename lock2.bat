@@ -2,19 +2,19 @@ cls
 
 @ECHO OFF
 
-title Folder cache
+title Folder db
 
 if EXIST "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}" goto UNLOCK
 
-if NOT EXIST cache goto MDLOCKER
+if NOT EXIST db goto MDLOCKER
 
 goto LOCK
 
 :LOCK
 
-attrib -h -s "cache"
+attrib -h -s "db"
 
-ren cache "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}"
+ren db "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}"
 
 attrib +h +s "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}"
 
@@ -24,15 +24,15 @@ goto End
 
 attrib -h -s "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}"
 
-ren "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}" cache
+ren "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}" db
 
-attrib +h +s cache
+attrib +h +s db
 
 goto End
 
 :MDLOCKER
 
-md cache
+md db
 
 goto End
 

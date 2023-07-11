@@ -1,2 +1,4 @@
 *.txt
 cache
+output
+lock1.bat

@@ -16,7 +16,16 @@ def main():
             self.key =key
 
             if n == 1:
-                f=open(f'cache/{self.name}.txt', "r")
+                try:
+                    f=open(f'db/{self.name}.txt', "r")
+                except:
+                    p=Popen("lock2.bat", cwd=os.getcwd())
+                    time.sleep(1)
+                    try:
+                        f=open(f'db/{self.name}.txt', "r")
+                    except:
+                        print("no such user found please register first\n")
+                        return
                 self.file=[line.strip() for line in f]
                 if cryptocode.decrypt(self.file[1],self.key)== self.password:
                     print("You have successfully logged in\n")
@@ -25,11 +34,29 @@ def main():
                 f.close()
 
             else:
-                f=open(f'cache{self.name}.txt', "w")
+                if(os.path.isdir("db")):
+                    if(os.path.isfile(f'db/{self.name}.txt')):
+                        print("user already exists login please\n")
+                        return
+                    else:
+                        f=open(f'db/{self.name}.txt', "w")
+                else:
+                    p=Popen("lock2.bat", cwd=os.getcwd())
+                    time.sleep(1)
+                    try:
+                        f=open(f'db/{self.name}.txt', "w")
+                    except:
+                        print("da got you")
+                        time.sleep(10)
                 encryptpassword=cryptocode.encrypt(self.password,self.key)
-                f.write(f"cache/{self.name}\n{encryptpassword}\n")
+                f.write(f"{self.name}\n{encryptpassword}\n")
                 f.close()
-                f=open(f'cache/{self.name}.txt', "r")
+                try:
+                    f=open(f'db/{self.name}.txt', "r")
+                except:
+                    p=Popen("lock2.bat", cwd=os.getcwd())
+                    time.sleep(1)
+                    f=open(f'db/{self.name}.txt', "r")
                 self.file=[line.strip() for line in f]
                 print("you have successfully registered\n")
                 f.close()
@@ -39,10 +66,15 @@ def main():
             self.username=input("enter the username: ")
             self.wpassword=maskpass.askpass(prompt="Password:", mask="#")
             ewpassword=cryptocode.encrypt(self.wpassword,self.key)
-            f=open(f'cache/{self.name}.txt', "a")
-            f.write(f"cache/{self.website}\n{self.username}\n{ewpassword}\n")
+            f=open(f'db/{self.name}.txt', "a")
+            f.write(f"{self.website}\n{self.username}\n{ewpassword}\n")
             f.close()
-            f=open(f'cache/{self.name}.txt', "r")
+            try:
+                f=open(f'db/{self.name}.txt', "r")
+            except:
+                p=Popen("lock2.bat", cwd=os.getcwd())
+                time.sleep(1)
+                f=open(f'db/{self.name}.txt', "r")
             self.file=[line.strip() for line in f]
             print("password added successfully\n")
             f.close()
@@ -90,10 +122,15 @@ def main():
             choice=int(input("Enter your choice: "))
             if choice==1:
                 ewpassword=cryptocode.encrypt(self.wpassword,self.key)
-                f=open(f'cache/{self.name}.txt', "a")
-                f.write(f"cahe/{self.website}\n{self.username}\n{ewpassword}\n")
+                f=open(f'db/{self.name}.txt', "a")
+                f.write(f"{self.website}\n{self.username}\n{ewpassword}\n")
                 f.close()
-                f=open(f'cache/{self.name}.txt', "r")
+                try:
+                    f=open(f'db/{self.name}.txt', "r")
+                except:
+                    p=Popen("lock2.bat", cwd=os.getcwd())
+                    time.sleep(1)
+                    f=open(f'db/{self.name}.txt', "r")
                 self.file=[line.strip() for line in f]
                 print("password added successfully\n")
                 f.close()
@@ -107,6 +144,7 @@ def main():
         print("\nIT will be used as secret key to encrypt and decrypt your passwords, keep it safe\n")
         print(" your password is: ", password)
         print(" your secret key is: ", key)
+        print("\n")
         global user
         user=userload(name,password,key,2)
 
